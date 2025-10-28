@@ -1,0 +1,19 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Install system dependencies including curl for health checks
+RUN apt-get update && apt-get install -y --no-install-recommends curl && rm -rf /var/lib/apt/lists/*
+
+# Install Python dependencies
+RUN pip install --no-cache-dir fastapi uvicorn[standard]
+
+# Copy mock services
+COPY src/mocks/ ./src/mocks/
+
+# Set Python path
+ENV PYTHONPATH=/app
+ENV PYTHONUNBUFFERED=1
+
+# Default command (overridden by docker-compose environment)
+CMD ["python", "-m", "uvicorn", "src.mocks.app:app", "--host", "0.0.0.0", "--port", "8000"]

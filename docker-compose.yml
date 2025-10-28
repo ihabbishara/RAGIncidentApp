@@ -1,0 +1,120 @@
+version: '3.8'
+
+services:
+  # Main application service
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: rag-incident-app
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./src:/app/src
+      - ./scripts:/app/scripts
+      - ./data/chromadb:/data/chromadb
+      - ./logs:/app/logs
+      - ./.env:/app/.env
+    environment:
+      - PYTHONUNBUFFERED=1
+      - ENVIRONMENT=development
+    depends_on:
+      - ollama
+      - confluence-mock
+      - servicenow-mock
+    networks:
+      - rag-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Ollama LLM service
+  ollama:
+    image: ollama/ollama:latest
+    container_name: rag-ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ./data/ollama:/root/.ollama
+    networks:
+      - rag-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:11434/api/tags"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    # Uncomment if you have GPU support
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
+
+  # Mock Confluence API service
+  confluence-mock:
+    build:
+      context: .
+      dockerfile: Dockerfile.mock
+    container_name: rag-confluence-mock
+    ports:
+      - "8001:8001"
+    environment:
+      - SERVICE_TYPE=confluence
+      - PORT=8001
+    command: ["python", "-m", "uvicorn", "src.mocks.app:app", "--host", "0.0.0.0", "--port", "8001"]
+    networks:
+      - rag-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/health"]
+      interval: 20s
+      timeout: 5s
+      retries: 3
+
+  # Mock ServiceNow API service
+  servicenow-mock:
+    build:
+      context: .
+      dockerfile: Dockerfile.mock
+    container_name: rag-servicenow-mock
+    ports:
+      - "8002:8002"
+    environment:
+      - SERVICE_TYPE=servicenow
+      - PORT=8002
+    command: ["python", "-m", "uvicorn", "src.mocks.app:app", "--host", "0.0.0.0", "--port", "8002"]
+    networks:
+      - rag-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8002/health"]
+      interval: 20s
+      timeout: 5s
+      retries: 3
+
+  # Optional: MailDev for email testing UI
+  maildev:
+    image: maildev/maildev:latest
+    container_name: rag-maildev
+    ports:
+      - "1080:1080"  # Web UI
+      - "1025:1025"  # SMTP
+    networks:
+      - rag-network
+    restart: unless-stopped
+
+networks:
+  rag-network:
+    driver: bridge
+
+volumes:
+  chromadb-data:
+  ollama-data:

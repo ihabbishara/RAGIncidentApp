@@ -7,22 +7,22 @@
 [![Docker](https://img.shields.io/badge/docker-compose-blue.svg)](https://docs.docker.com/compose/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)]()
 
-## 🎯 Overview
+## Overview
 
 This system automatically creates ServiceNow incidents from incoming emails by leveraging RAG (Retrieval-Augmented Generation) to provide intelligent context and recommendations. The system searches a knowledge base, generates AI-powered incident summaries, and sends rich notifications to Microsoft Teams channels.
 
 ### Key Features
 
-- 📧 **Email Trigger** - SMTP server receives and validates emails from authorized senders
-- 🔍 **RAG Search** - Vector similarity search across Confluence knowledge base
-- 🤖 **LLM Analysis** - Uses Ollama (Llama 3.2 3B) for intelligent incident summarization
-- 🎫 **Auto-Ticketing** - Creates ServiceNow incidents with AI-generated insights
-- 💬 **Teams Integration** - Rich Adaptive Card notifications in Microsoft Teams
-- 📊 **Monitoring** - Comprehensive health checks and metrics endpoints
-- 🧪 **Mock Services** - Built-in mocks for testing without external dependencies
-- 📈 **Observability** - Structured logging with Loguru
+- **Email Trigger** - SMTP server receives and validates emails from authorized senders
+- **RAG Search** - Vector similarity search across Confluence knowledge base
+- **LLM Analysis** - Uses Ollama (Llama 3.2 3B) for intelligent incident summarization
+- **Auto-Ticketing** - Creates ServiceNow incidents with AI-generated insights
+- **Teams Integration** - Rich Adaptive Card notifications in Microsoft Teams
+- **Monitoring** - Comprehensive health checks and metrics endpoints
+- **Mock Services** - Built-in mocks for testing without external dependencies
+- **Observability** - Structured logging with Loguru
 
-## 🏗️ Architecture
+## Architecture
 
 ### High-Level System Architecture
 
@@ -219,7 +219,7 @@ flowchart TD
     style End fill:#4CAF50,stroke:#2E7D32,color:#fff
 ```
 
-## ✨ Features
+## Features
 
 ### RAG (Retrieval-Augmented Generation)
 - **Vector Search**: Semantic search using sentence transformers embeddings
@@ -333,7 +333,7 @@ source .venv/bin/activate
 python scripts/create_test_data.py
 ```
 
-## 📝 Usage
+## Usage
 
 ### Test the System
 
@@ -412,7 +412,7 @@ Open http://localhost:1080 in your browser to see captured emails.
 | `/stats` | GET | System statistics (document count, etc.) |
 | `/api/test-email` | POST | Test email processing without SMTP |
 
-## 🔧 Configuration
+## Configuration
 
 ### Environment Variables
 
@@ -468,7 +468,7 @@ TEAMS_ENABLED=true              # Enable/disable Teams notifications
 
 See [docs/TEAMS_INTEGRATION.md](docs/TEAMS_INTEGRATION.md) for Teams setup instructions.
 
-## 🧪 Testing
+## Testing
 
 ### Run All Tests
 
@@ -490,7 +490,7 @@ pytest tests/e2e/ -v            # End-to-end tests
 
 ### Test Coverage
 
-Current coverage: **33/33 tests passing** ✅
+Current coverage: **33/33 tests passing**
 
 ```
 tests/unit/               - 27 tests  (Email, Embedder, Builder, Processor)
@@ -511,7 +511,7 @@ ruff check src/ tests/
 mypy src/
 ```
 
-## 📂 Project Structure
+## Project Structure
 
 ```
 RAGIncidentApp/
@@ -564,7 +564,7 @@ RAGIncidentApp/
 └── README.md                # This file
 ```
 
-## 🐳 Docker Services
+## Docker Services
 
 | Service | Port | Purpose | Health Check |
 |---------|------|---------|--------------|
@@ -681,7 +681,7 @@ docker-compose restart app
 docker-compose logs -f app
 ```
 
-## 📊 Monitoring & Observability
+## Monitoring & Observability
 
 ### Health Checks
 
@@ -742,7 +742,7 @@ docker-compose logs app | grep "ERROR"
 docker-compose logs app > application.log
 ```
 
-## 🚀 Production Deployment
+## Production Deployment
 
 ### Pre-Production Checklist
 
@@ -819,11 +819,11 @@ We welcome contributions! Please follow these guidelines:
 - **Testing**: Minimum 80% coverage
 - **Commits**: [Conventional Commits](https://www.conventionalcommits.org/)
 
-## 📄 License
+## License
 
 This project is provided as-is for demonstration and educational purposes.
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - **[Langchain](https://python.langchain.com/)** - LLM application framework
 - **[ChromaDB](https://www.trychroma.com/)** - Vector database
@@ -831,7 +831,7 @@ This project is provided as-is for demonstration and educational purposes.
 - **[FastAPI](https://fastapi.tiangolo.com/)** - Modern Python web framework
 - **[Sentence Transformers](https://www.sbert.net/)** - State-of-the-art sentence embeddings
 
-## 📚 Additional Resources
+## Additional Resources
 
 - [Microsoft Teams Integration Guide](docs/TEAMS_INTEGRATION.md)
 - [Langchain Documentation](https://python.langchain.com/)
@@ -839,7 +839,7 @@ This project is provided as-is for demonstration and educational purposes.
 - [Ollama Model Library](https://ollama.ai/library)
 - [ServiceNow REST API](https://developer.servicenow.com/dev.do)
 
-## 🆘 Support
+## Support
 
 For issues and questions:
 

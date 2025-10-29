@@ -131,7 +131,7 @@ class TeamsClient:
         card_body = [
             {
                 "type": "TextBlock",
-                "text": f"🚨 New Incident: {incident_number}",
+                "text": f"New Incident: {incident_number}",
                 "weight": "Bolder",
                 "size": "Large",
                 "color": priority_color,
@@ -203,7 +203,7 @@ class TeamsClient:
         if kb_sources and len(kb_sources) > 0:
             card_body.append({
                 "type": "TextBlock",
-                "text": f"📚 {len(kb_sources)} relevant KB articles found",
+                "text": f"{len(kb_sources)} relevant KB articles found",
                 "weight": "Bolder",
                 "spacing": "Medium",
             })

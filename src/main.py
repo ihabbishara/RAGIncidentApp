@@ -77,7 +77,7 @@ async def lifespan(app: FastAPI):
         smtp_server = SMTPServer(settings, email_callback=orchestrator.process_email)
         smtp_server.start()
 
-        logger.info("✅ RAG Incident System started successfully")
+        logger.info("RAG Incident System started successfully")
         logger.info(f"SMTP server listening on {settings.smtp_host}:{settings.smtp_port}")
         logger.info(f"API server running on {settings.app_host}:{settings.app_port}")
 
@@ -93,7 +93,7 @@ async def lifespan(app: FastAPI):
     if smtp_server:
         smtp_server.stop()
 
-    logger.info("✅ RAG Incident System shut down successfully")
+    logger.info("RAG Incident System shut down successfully")
 
 
 # Create FastAPI app

@@ -22,15 +22,25 @@ class Embedder:
         self.model_name = settings.embedding_model
         self.device = settings.embedding_device
         self.batch_size = settings.embedding_batch_size
-
-        logger.info(f"Loading embedding model: {self.model_name} on {self.device}")
+        
+        # Derive local cache path from the model name
+        self.local_model_path = f"data/models/{self.model_name}"
+        
+        logger.info(f"Attempting to load embedding model from HuggingFace: {self.model_name} on {self.device}")
 
         try:
+            # Try downloading/using online model first
             self.model = SentenceTransformer(self.model_name, device=self.device)
-            logger.info(f"Successfully loaded embedding model: {self.model_name}")
+            logger.info("Successfully loaded model from HuggingFace")
         except Exception as e:
-            logger.error(f"Failed to load embedding model {self.model_name}: {e}")
-            raise
+            logger.warning(f"Failed to load model from HuggingFace: {e}")
+            logger.info(f"Attempting to load from local cache: {self.local_model_path}")
+            try:
+                self.model = SentenceTransformer(self.local_model_path, device=self.device)
+                logger.info("Successfully loaded model from local cache")
+            except Exception as local_e:
+                logger.error(f"Failed to load model from local cache: {local_e}")
+                raise
 
     def embed_text(self, text: str) -> List[float]:
         """

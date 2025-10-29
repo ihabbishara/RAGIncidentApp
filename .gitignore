@@ -35,7 +35,6 @@ ENV/
 .DS_Store
 
 # Environment
-.env
 .env.local
 
 # Testing
@@ -67,3 +66,5 @@ dmypy.json
 
 # Ruff
 .ruff_cache/
+!/.env
+!/.env
